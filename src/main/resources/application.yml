@@ -1,0 +1,22 @@
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+#    org.springframework.boot.autoconfigure: DEBUG
+
+spring:
+  thymeleaf:
+    cache: false
+azure:
+  activedirectory:
+    client-id: <ADD_CLIENT_ID_HERE>
+    client-secret: <ADD_CLIENT_SECRET_HERE>
+    tenant-id: <ADD_TENANT_ID_HERE>
+    authorization-clients:
+      myaaddemo:
+        scopes: openid, profile, offline_access
+server:
+  port: 8082
+
+myaaddemo-base-url: http://localhost:8082

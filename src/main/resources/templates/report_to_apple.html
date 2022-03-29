@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div id="layoutSidenav">
+
+    <div id="layoutSidenav_nav">
+        <div th:insert="fragments/sidebar-simple :: sidebar"/>
+    </div>
+    <div class="container">
+
+        <div class=" starter-template">
+            <p>These tokens must be reported to Apple:</p>
+
+
+            <form th:action="@{/reportToApple}" method="post">
+
+            <!--pre style="font-family: Courier;background: #f4f4f4;border: solid 1px #e1e1e1;float: left;width: auto;">
+              <p th:text="${json}" style="white-space: pre"></p>
+            </pre-->
+
+                <button type="submit">Save as reported to Apple</button></p>
+                <textarea name="json" rows="20" cols="80"  th:text="*{json}"
+                          style="white-space: pre;font-family: Courier;background: #f4f4f4;border: solid 1px #e1e1e1;float: left;width: auto;"
+                           required="required">her da...
+                </textarea>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

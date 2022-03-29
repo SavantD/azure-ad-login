@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+</head>
+<body>
+<div th:fragment="sidebar">
+
+    <nav class="sb-sidenav sb-sidenav-light accordion" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <div class="sb-sidenav-menu-heading">Admin functions</div>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/upload_tokens">Upload tokens</a>
+                    </nav>
+                    <!--nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/tokens?inUse=false&reportedToApple=false">Tokens not reported to Apple</a>
+                    </nav-->
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/reportToApple">Report to Apple</a>
+                    </nav>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/tokens?page=1&inUse=true&reportedToApple=true">Used tokens</a>
+                    </nav>
+                </div>
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <div class="sb-sidenav-menu-heading">User functions</div>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/tokens?inUse=false&reportedToApple=true">Unused tokens</a>
+                    </nav>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/nextTokenForFirmware?packageType=combined">Build fw (bl and app)</a>
+                    </nav>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/nextTokenForFirmware?packageType=app">Build fw (app only)</a>
+                    </nav>
+                </div>
+                    <div class="sb-sidenav-menu-heading">General</div>
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/about">About this service</a>
+                    </nav>
+            </div>
+        </div>
+    </nav>
+
+</div>
+
+
+</body>
+</html>

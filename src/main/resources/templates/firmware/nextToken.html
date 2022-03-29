@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <div th:insert="fragments/sidebar-simple :: sidebar"/>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="starter-template">
+                    <div th:insert="fragments/tokens-table :: package-header(packageType=${packageType}, alert=${alert})"/>
+
+
+                    <p>This is the next available token:</p>
+                    <table id="tokens-table">
+                        <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Id</td>
+                            <td><span th:text="${tokenEntity.id}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Serial number</td>
+                            <td><span th:text="${tokenEntity.serialNumber}">r</td>
+                        </tr>
+                        <tr>
+                            <td>In Use</td>
+                            <td><span th:text="${tokenEntity.inUse}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Reported to Apple</td>
+                            <td><span th:text="${tokenEntity.reportedToApple}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Created At</td>
+                            <td><span th:text="${tokenEntity.createdAt}">r</td>
+                        </tr>
+                        <tr>
+                            <td>GUID</td>
+                            <td><span th:text="${tokenEntity.guid}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Token</td>
+                            <td><span
+                                    th:text="${#strings.concat(tokenEntity.tokenBase64.substring(0,10), ' ... ', tokenEntity.tokenBase64.substring(tokenEntity.tokenBase64.length-10,tokenEntity.tokenBase64.length))}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <form method="post">
+                    <input type="hidden" name="id" th:value="${tokenEntity.id}" id="id"/>
+                    <input type="hidden" name="packageType" th:value="${packageType}" id="packageType"/>
+                    <button type="submit">Use this token (and mark as used)</button>
+                    </p>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+<script>
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("command");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        document.execCommand('copy');
+        /* Copy the text inside the text field */
+        //navigator.clipboard.writeText(copyText.value);
+
+        /* Alert the copied text */
+        alert("Copied the command:\n " + copyText.value);
+    }
+</script>
+</body>
+</html>

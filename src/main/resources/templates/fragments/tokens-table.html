@@ -1,0 +1,88 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+</head>
+<body>
+
+<div th:fragment="package-header(packageType, alert)">
+    <h2 th:if="${#strings.equals(packageType, 'app')}">Get token for application package only</h2>
+    <h2 th:if="${#strings.equals(packageType, 'combined')}">Get token for combined package (both bootloader and application)</h2>
+    <div th:if="${alert}" class="alert alert-info" th:text="${alert}"></div>
+</div>
+
+
+<div th:fragment="tokens-table(tokensPage, tokenParameters, URL)">
+    <div class="container">
+
+
+        <div th:if="${tokensPage.content.empty}" class=" starter-template">
+            <p>No tokens...</p>
+        </div>
+
+        <div th:if="${!tokensPage.content.empty}" class=" starter-template">
+
+
+            <form th:object="${tokenParameters}" method="post">
+
+                <input type="hidden" th:field="*{inUse}">
+                <input type="hidden" th:field="*{reportedToApple}">
+                <input type="hidden" th:field="*{page}" value="1">
+                <p>Tokens per page:
+                    <select th:field="*{size}">
+                        <option th:each="perPage : *{tokensPerPage}"
+                                th:value="${perPage}"
+                                th:selected="${perPage} == *{size} ? true : false"
+                                th:text="${perPage}">
+                        </option>
+                    </select>
+                    <button type="submit">Submit</button>
+                </p>
+            </form>
+            <p>Total number of tokens: <span th:text="${tokensPage.totalElements}"/></p>
+            <p>URL: <span th:text="${URL}"/></p>
+            <p>Page <span th:text="${tokensPage.number}"/> of <span th:text="${tokensPage.totalPages}"/></p>
+            <div th:if="${tokensPage.totalPages > 0}" class="pagination"
+                 th:each="page : ${pageNumbers}">
+                <!--a th:href="@{/tokens(size=${tokenParameters.size}, page=${page}, inUse=${tokenParameters.inUse}, reportedToApple=${tokenParameters.reportedToApple})}"
+                   th:text=${page}
+                   th:class="${page==tokensPage.getNumber() + 1} ? active"></a-->
+                <a th:href="@{${URL}(size=${tokenParameters.size}, page=${page}, inUse=${tokenParameters.inUse}, reportedToApple=${tokenParameters.reportedToApple})}"
+                   th:text=${page}
+                   th:class="${page==tokensPage.getNumber() + 1} ? active"></a>
+            </div>
+            <table id="tokens-table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Serial number</th>
+                    <th>In use</th>
+                    <th>Reported to Apple</th>
+                    <th>UUID</th>
+                    <th>Base 64 encoded token</th>
+                    <th>Created at</th>
+                </tr>
+                </thead>
+                <tbody>
+
+
+                <tr th:each="token: ${tokensPage.content}">
+
+                    <td><span th:text="${token.id}"></span></td>
+                    <td><span th:text="${token.serialNumber}"></span></td>
+                    <td><span th:text="${token.inUse} ? 'yes' : 'no'"></span></td>
+                    <td><span th:text="${token.reportedToApple} ? 'yes' : 'no'"></span></td>
+                    <td><span th:text="${token.Guid}"></span></td>
+                    <td><span
+                            th:text="${#strings.concat(#strings.substring(token.tokenBase64,0,20), '...')}"></span>
+                    </td>
+                    <td><span th:text="${token.createdAt}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <div th:insert="fragments/sidebar-simple :: sidebar"/>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="starter-template">
+
+                    <div th:insert="fragments/tokens-table :: package-header(packageType=${packageType}, alert=${alert})"/>
+
+                    <p>Will use this serialNumber, GUID and token from Apple:</p>
+                    <table id="tokens-table">
+                        <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Id</td>
+                            <td><span th:text="${tokenEntity.id}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Serial number</td>
+                            <td><span th:text="${tokenEntity.serialNumber}">r</td>
+                        </tr>
+                        <tr>
+                            <td>In Use</td>
+                            <td><span th:text="${tokenEntity.inUse}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Reported to Apple</td>
+                            <td><span th:text="${tokenEntity.reportedToApple}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Created At</td>
+                            <td><span th:text="${tokenEntity.createdAt}">r</td>
+                        </tr>
+                        <tr>
+                            <td>GUID</td>
+                            <td><span th:text="${tokenEntity.guid}">r</td>
+                        </tr>
+                        <tr>
+                            <td>Token</td>
+                            <td><span
+                                    th:text="${#strings.concat(tokenEntity.tokenBase64.substring(0,10), ' ... ', tokenEntity.tokenBase64.substring(tokenEntity.tokenBase64.length-10,tokenEntity.tokenBase64.length))}">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <textarea id="command" cols="100" rows="5"
+                              th:text="'./bagid.sh --provision ' + ${tokenEntity.serialNumber} + ' ' + ${tokenEntity.guid} + ' ' + ${tokenEntity.tokenBase64} + ' --dfu ' + ${packageType} + ' release-fmna'"
+                              style="white-space: pre;font-family: Courier;background: #f4f4f4;border: solid 1px #e1e1e1;float: left;width: auto;"
+                              required="required"/>
+                    <button onclick="myFunction()">Copy text</button>
+                </div>
+                <form method="post" action="/markTokenAsUnused">
+                    <input type="hidden" id="id" name="id" th:value="${tokenEntity.id}"/>
+                    <input type="hidden" id="packageType" name="packageType" th:value="${packageType}"/>
+                    <button type="submit">Did not use this token, save token as unused</button>
+                    </p>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+<script>
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("command");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        document.execCommand('copy');
+        /* Copy the text inside the text field */
+        //navigator.clipboard.writeText(copyText.value);
+
+        /* Alert the copied text */
+        alert("Copied the command:\n " + copyText.value);
+    }
+</script>
+</body>
+</html>

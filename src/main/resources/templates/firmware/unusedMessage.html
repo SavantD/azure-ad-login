@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <div th:insert="fragments/sidebar-simple :: sidebar"/>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="starter-template">
+                    <div th:insert="fragments/tokens-table :: package-header(packageType=${packageType}, alert=${alert})"/>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+<script>
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("command");
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+        document.execCommand('copy');
+        /* Copy the text inside the text field */
+        //navigator.clipboard.writeText(copyText.value);
+
+        /* Alert the copied text */
+        alert("Copied the command:\n " + copyText.value);
+    }
+</script>
+</body>
+</html>

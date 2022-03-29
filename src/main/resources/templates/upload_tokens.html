@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div id="layoutSidenav">
+
+    <div id="layoutSidenav_nav">
+        <div th:insert="fragments/sidebar-simple :: sidebar"/>
+    </div>
+    <div class="container">
+
+        <div class="starter-template">
+            <h2>Upload tokens</h2>
+            <p>For now, we use Postman to get the CSV-files from Apple.</p>
+            <p>Use this page to upload a CSV-file received from Apple.</p>
+            <div class="row">
+                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+                <form method="post" th:action="@{/api/tokens/upload}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="file" class="form-control-file">
+                    </div>
+                    </p>
+                    <button type="submit" class="btn btn-primary">Upload File</button>
+                </form>
+            </div>
+            </p>
+            <h2>Uploaded tokens, not yet reported to Apple.</h2>
+            <p th:text="${URL}"></p>
+
+            <div th:replace="fragments/tokens-table :: tokens-table(tokensPage=${tokensPage}, tokenParameters=${tokenParameters}, URL='/upload_tokens')"/>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <div th:insert="fragments/sidebar-simple :: sidebar"/>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container">
+                <div class="starter-template">
+                    <h1>About this service</h1>
+                    <p>This service is used to manage Apple MFI tokens for DemoApp</p>
+                    <div sec:authorize="isAnonymous()">
+                        <p>To get started, please <a th:href="@{/loginAD}">Log in</a>.</p>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <p>To get started, please select functions in the left sidebar.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>
